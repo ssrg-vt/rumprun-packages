@@ -1,21 +1,19 @@
 include ../Makefile.inc
 
-#UPSTREAM_HTTPD=http://archive.apache.org/dist/httpd/httpd-2.4.33.tar.gz
-UPSTREAM_HTTPD=http://archive.apache.org/dist/httpd/httpd-2.4.23.tar.gz
+UPSTREAM_HTTPD=http://archive.apache.org/dist/httpd/httpd-2.4.9.tar.gz
 TARBALL_HTTPD=dl/$(notdir $(UPSTREAM_HTTPD))
-#UPSTREAM_APR=http://archive.apache.org/dist/apr/apr-1.6.3.tar.gz
-UPSTREAM_APR=http://archive.apache.org/dist/apr/apr-1.5.2.tar.gz
+UPSTREAM_APR=http://archive.apache.org/dist/apr/apr-1.6.3.tar.gz
 TARBALL_APR=dl/$(notdir $(UPSTREAM_APR))
-UPSTREAM_APR_UTIL=http://archive.apache.org/dist/apr/apr-util-1.5.4.tar.gz
+UPSTREAM_APR_UTIL=http://archive.apache.org/dist/apr/apr-util-1.6.1.tar.gz
 TARBALL_APR_UTIL=dl/$(notdir $(UPSTREAM_APR_UTIL))
 TARBALLS=$(TARBALL_HTTPD) $(TARBALL_APR) $(TARBALL_APR_UTIL)
 
 ARCH=$(shell $(HOST_CC) -dumpmachine)
 
-all: libssl $(RUMPRUN_PKGS_DIR)/lib/libpcre.a bin/httpd images
+all: libssl $(RUMPRUN_PKGS_DIR)/lib/libpcre2.a bin/httpd images
 
-.NOTPARALLEL: $(RUMPRUN_PKGS_DIR)/lib/libpcre.a
-$(RUMPRUN_PKGS_DIR)/lib/libpcre.a:
+.NOTPARALLEL: $(RUMPRUN_PKGS_DIR)/lib/libpcre2.a
+$(RUMPRUN_PKGS_DIR)/lib/libpcre2.a:
 	$(MAKE) -C ../pcre
 
 bin/httpd: build/httpd
@@ -38,7 +36,7 @@ APACHE_CONF_OPTS += \
 		    --host=$(RUMPRUN_TOOLCHAIN_TUPLE) \
 		    --build=$(ARCH) \
 		    --with-included-apr \
-		    --with-pcre="$(RUMPRUN_PKGS_DIR)/bin/pcre-config" \
+		    --with-pcre="$(RUMPRUN_PKGS_DIR)/bin/pcre2-config" \
 		    --with-ssl="$(RUMPRUN_PKGS_DIR)/bin" \
 		    --with-z=$(RUMPRUN_SYSROOT) \
 		    --prefix=/none \

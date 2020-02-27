@@ -1,0 +1,39 @@
+--- a/memcached.c	2019-01-06 15:43:40.684352761 -0500
++++ b/memcached.c	2018-09-26 14:40:15.000000000 -0400
+@@ -6562,9 +6562,9 @@
+     bool do_daemonize = false;
+     bool preallocate = false;
+     int maxcore = 0;
+-    char *username = NULL;
++    //char *username = NULL;
+     char *pid_file = NULL;
+-    struct passwd *pw;
++    //struct passwd *pw;
+     struct rlimit rlim;
+     char *buf;
+     char unit = '\0';
+@@ -6902,7 +6902,7 @@
+             }
+             break;
+         case 'u':
+-            username = optarg;
++            //username = optarg;
+             break;
+         case 'P':
+             pid_file = optarg;
+@@ -7586,6 +7586,7 @@
+         }
+     }
+ 
++#if 0
+     /* lose root privileges if we have them */
+     if (getuid() == 0 || geteuid() == 0) {
+         if (username == 0 || *username == '\0') {
+@@ -7605,6 +7606,7 @@
+             exit(EX_OSERR);
+         }
+     }
++#endif
+ 
+     /* Initialize Sasl if -S was specified */
+     if (settings.sasl) {

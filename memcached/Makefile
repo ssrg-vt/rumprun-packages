@@ -1,6 +1,7 @@
 include ../Makefile.inc
 
-UPSTREAM=http://www.memcached.org/files/memcached-1.4.28.tar.gz
+#UPSTREAM=http://www.memcached.org/files/memcached-1.4.28.tar.gz
+UPSTREAM=http://www.memcached.org/files/memcached-1.4.33.tar.gz
 TARBALL=$(notdir $(UPSTREAM))
 
 all: $(RUMPRUN_PKGS_DIR)/lib/libevent.a build/configure build/Makefile
@@ -16,7 +17,7 @@ MEMCACHED_CONF_ENV += \
 MEMCACHED_CONF_OPTS += \
 	--prefix=$(shell pwd)/build/dist \
 	--host=$(RUMPRUN_TOOLCHAIN_TUPLE) \
-	--with-libevent=$(shell pwd)/../../pkgs
+	--with-libevent=/home/mincheol/mnt/home/mincheol/rumprun-packages/libevent/build/.libs
 
 build/stamp_patch:
 	(cd build && ../../scripts/apply-patches.sh ./ ../patches/*)

@@ -85,6 +85,9 @@ build/mysql_cross_cmake_stamp: build/mysql_native_stamp
 	    -DWITH_SSL=system \
 	    -DFEATURE_SET=small \
 	    -DWITHOUT_PERFSCHEMA_STORAGE_ENGINE=1 \
+	    -DOPENSSL_INCLUDE_DIR=/home/mincheol/mnt/home/mincheol/rumprun-packages/openssl/build/include \
+	    -DOPENSSL_LIBRARY=/home/mincheol/mnt/home/mincheol/rumprun-packages/openssl/build/libssl.a \
+	    -DCRYPTO_LIBRARY=/home/mincheol/mnt/home/mincheol/rumprun-packages/openssl/build/libcrypto.a \
 	    ..
 # my_net.h insists on redefining in_addr_t, and nothing in the CMake build
 # files sets HAVE_IN_ADDR_T. TODO: Report this upstream.

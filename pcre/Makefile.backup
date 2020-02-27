@@ -1,12 +1,12 @@
 include ../Makefile.inc
-UPSTREAM=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.tar.gz
+UPSTREAM=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-10.31.tar.gz
 TARBALL=$(notdir $(UPSTREAM))
 
-all: bin/pcre
+all: bin/pcre2
 
-bin/pcre: build/libpcre.la
+bin/pcre2: build/libpcre2.la
 
-build/libpcre.la: build/Makefile
+build/libpcre2.la: build/Makefile
 	$(MAKE) -C build
 	$(MAKE) install -C build
 

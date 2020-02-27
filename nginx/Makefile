@@ -45,9 +45,9 @@ NGINX_CONF_OPTS += \
 	--http-fastcgi-temp-path=/tmp/fastcgi \
 	--http-scgi-temp-path=/tmp/scgi \
 	--http-uwsgi-temp-path=/tmp/uwsgi \
-	--with-http_ssl_module \
 	--with-ipv6 \
-	--with-pcre
+	--without-http_rewrite_module \
+	--with-threads
 
 build/Makefile: build/stamp_patch
 	(cd build; $(NGINX_CONF_ENV) ./configure $(NGINX_CONF_OPTS))

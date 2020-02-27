@@ -1,0 +1,12 @@
+diff -urN a/sysbench/sb_timer.h b/sysbench/sb_timer.h
+--- a/sysbench/sb_timer.h	2018-09-30 00:28:35.458998476 -0400
++++ b/sysbench/sb_timer.h	2018-09-30 00:29:01.574854020 -0400
+@@ -50,7 +50,7 @@
+ 
+ /* Wrapper over various *gettime* functions */
+ #ifdef HAVE_CLOCK_GETTIME
+-# define SB_GETTIME(tsp) clock_gettime(CLOCK_REALTIME, tsp)
++# define SB_GETTIME(tsp) clock_gettime(CLOCK_MONOTONIC, tsp)
+ #else
+ # define SB_GETTIME(tsp)                        \
+   do {                                          \

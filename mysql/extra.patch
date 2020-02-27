@@ -1,0 +1,22 @@
+--- a/build/mysql/sql/sql_acl.cc	2018-09-28 21:22:51.898170173 -0400
++++ b/build/mysql/sql/sql_acl.cc	2018-09-28 21:23:24.180452153 -0400
+@@ -3030,7 +3030,7 @@
+       * An empty password is considered to be of mysql_native type.
+     */
+     
+-    if (combo->plugin.str == NULL || combo->plugin.str == '\0')
++    if (combo->plugin.str == NULL || *combo->plugin.str == '\0')
+     {
+       if (combo->uses_identified_by_password_clause)
+       {
+--- a/build/mysql/sql-common/client_authentication.cc	2018-09-28 21:34:07.874514616 -0400
++++ b/build/mysql/sql-common/client_authentication.cc	2018-09-28 21:34:32.438905022 -0400
+@@ -84,7 +84,7 @@
+ 
+   if (mysql->options.extension != NULL &&
+       mysql->options.extension->server_public_key_path != NULL &&
+-      mysql->options.extension->server_public_key_path != '\0')
++      *mysql->options.extension->server_public_key_path != '\0')
+   {
+     pub_key_file= fopen(mysql->options.extension->server_public_key_path,
+                         "r");

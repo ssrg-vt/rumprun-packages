@@ -1,0 +1,16 @@
+--- a/src/redis.c	2018-09-30 20:58:17.885014122 -0400
++++ b/src/redis.c	2018-09-30 20:58:09.248796878 -0400
+@@ -3587,9 +3587,13 @@
+     REDIS_NOTUSED(title);
+ #endif
+ }
++static char *__argv[4] = {NULL,"--protected-mode","no",NULL};
+ 
+ int main(int argc, char **argv) {
+     struct timeval tv;
++    __argv[0] = argv[0];
++    argc = 3;
++    argv = __argv;
+ 
+     /* We need to initialize our libraries, and the server configuration. */
+ #ifdef INIT_SETPROCTITLE_REPLACEMENT

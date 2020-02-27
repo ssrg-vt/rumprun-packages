@@ -1,0 +1,54 @@
+--- a/sysbench/sysbench.c	2018-09-30 13:29:25.211656956 -0400
++++ b/sysbench/sysbench.c	2018-09-30 13:39:52.848369791 -0400
+@@ -77,7 +77,9 @@
+ /* Stack size for each thread */
+ static int thread_stack_size;
+ 
+-/* General options */
++struct timeval start, stop;
++
++ /* General options */
+ sb_arg_t general_args[] =
+ {
+   {"num-threads", "number of threads to use", SB_ARG_TYPE_INT, "1"},
+@@ -138,11 +140,13 @@
+     if (!sb_globals.stopped)
+     {
+       sb_globals.stopped = 1;
++      gettimeofday(&stop, NULL);
+       sb_timer_stop(&sb_globals.exec_timer);
+       sb_timer_stop(&sb_globals.cumulative_timer1);
+       sb_timer_stop(&sb_globals.cumulative_timer2);
+     }
+     pthread_mutex_unlock(&thread_start_mutex);
++    log_text(LOG_NOTICE, "TIME1: %f\n", (stop.tv_sec + stop.tv_usec / 1000000UL) - (start.tv_sec + start.tv_usec / 1000000UL));
+ 
+     log_text(LOG_FATAL,
+              "The --max-time limit has expired, forcing shutdown...");
+@@ -517,11 +521,14 @@
+   if (sb_globals.num_running == 0 && !sb_globals.stopped)
+   {
+     sb_globals.stopped = 1;
++    gettimeofday(&stop, NULL);
+     sb_timer_stop(&sb_globals.exec_timer);
+     sb_timer_stop(&sb_globals.cumulative_timer1);
+     sb_timer_stop(&sb_globals.cumulative_timer2);
+   }
+   pthread_mutex_unlock(&thread_start_mutex);
++    
++  log_text(LOG_NOTICE, "TIME2: %f\n", (stop.tv_sec + stop.tv_usec / 1000000UL));
+   
+   return NULL; 
+ }
+@@ -716,9 +723,11 @@
+     }
+   }
+ 
++  gettimeofday(&start, NULL);
+   sb_timer_start(&sb_globals.exec_timer); /* Start benchmark timer */
+   sb_timer_start(&sb_globals.cumulative_timer1);
+   sb_timer_start(&sb_globals.cumulative_timer2);
++  log_text(LOG_NOTICE, "START time: %lu\n", (start.tv_sec + start.tv_usec / 1000000UL));
+ 
+ #ifdef HAVE_ALARM
+   /* Set the alarm to force shutdown */

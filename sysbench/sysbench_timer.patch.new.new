@@ -1,0 +1,91 @@
+--- a/sysbench/sysbench.c	2018-09-30 14:05:50.049009707 -0400
++++ b/sysbench/sysbench.c	2018-09-30 14:28:01.295154349 -0400
+@@ -77,7 +77,7 @@
+ /* Stack size for each thread */
+ static int thread_stack_size;
+ 
+-/* General options */
++ /* General options */
+ sb_arg_t general_args[] =
+ {
+   {"num-threads", "number of threads to use", SB_ARG_TYPE_INT, "1"},
+@@ -138,9 +138,9 @@
+     if (!sb_globals.stopped)
+     {
+       sb_globals.stopped = 1;
+-      sb_timer_stop(&sb_globals.exec_timer);
+-      sb_timer_stop(&sb_globals.cumulative_timer1);
+-      sb_timer_stop(&sb_globals.cumulative_timer2);
++      //sb_timer_stop(&sb_globals.exec_timer);
++      //sb_timer_stop(&sb_globals.cumulative_timer1);
++      //sb_timer_stop(&sb_globals.cumulative_timer2);
+     }
+     pthread_mutex_unlock(&thread_start_mutex);
+ 
+@@ -511,18 +511,18 @@
+   }
+   if (test->ops.thread_done != NULL)
+     test->ops.thread_done(thread_id);
+-
++ 
+   pthread_mutex_lock(&thread_start_mutex);
+   sb_globals.num_running--;
+   if (sb_globals.num_running == 0 && !sb_globals.stopped)
+   {
+     sb_globals.stopped = 1;
+-    sb_timer_stop(&sb_globals.exec_timer);
+-    sb_timer_stop(&sb_globals.cumulative_timer1);
+-    sb_timer_stop(&sb_globals.cumulative_timer2);
++    //sb_timer_stop(&sb_globals.exec_timer);
++    //sb_timer_stop(&sb_globals.cumulative_timer1);
++    //sb_timer_stop(&sb_globals.cumulative_timer2);
+   }
+   pthread_mutex_unlock(&thread_start_mutex);
+-  
++ 
+   return NULL; 
+ }
+ 
+@@ -702,7 +702,7 @@
+     }
+     checkpoints_thread_created = 1;
+   }
+-
++  struct timeval start, stop;
+   /* Starting the test threads */
+   for(i = 0; i < sb_globals.num_threads; i++)
+   {
+@@ -716,11 +716,11 @@
+     }
+   }
+ 
+-  sb_timer_start(&sb_globals.exec_timer); /* Start benchmark timer */
+-  sb_timer_start(&sb_globals.cumulative_timer1);
+-  sb_timer_start(&sb_globals.cumulative_timer2);
++  //sb_timer_start(&sb_globals.exec_timer); /* Start benchmark timer */
++  //sb_timer_start(&sb_globals.cumulative_timer1);
++  //sb_timer_start(&sb_globals.cumulative_timer2);
+ 
+-#ifdef HAVE_ALARM
++#if 0
+   /* Set the alarm to force shutdown */
+   if (sb_globals.force_shutdown)
+     alarm(sb_globals.max_time + sb_globals.timeout);
+@@ -729,12 +729,16 @@
+   pthread_mutex_unlock(&thread_start_mutex);
+   
+   log_text(LOG_NOTICE, "Threads started!");  
+-
++  gettimeofday(&start, NULL);
++  log_text(LOG_NOTICE, "Start Time: %lu\n", start.tv_sec );
+   for(i = 0; i < sb_globals.num_threads; i++)
+   {
+     if((err = pthread_join(threads[i].thread, NULL)) != 0)
+       log_errno(LOG_FATAL, "pthread_join() for thread #%d failed.", i);
+   }
++  gettimeofday(&stop, NULL);
++  log_text(LOG_NOTICE, "Stop Time: %lu\n", stop.tv_sec );
++  //log_text(LOG_NOTICE, "Time: %.4f\n", (stop.tv_sec + stop.tv_usec / 1000000UL) - (start.tv_sec + start.tv_usec / 1000000UL));
+ 
+   /* Timers stopped when last thread completes */
+   /* Silence periodic reports if they were on */

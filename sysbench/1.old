@@ -1,0 +1,12 @@
+diff -urN a/config/config.h b/config/config.h
+--- a/config/config.h	2018-09-29 23:14:21.071935342 -0400
++++ b/config/config.h	2018-09-29 23:57:23.315858215 -0400
+@@ -5,7 +5,7 @@
+ #define HAVE_ALARM 1
+ 
+ /* Define if you have clock_gettime() declared in <time.h> */
+-#define HAVE_CLOCK_GETTIME 1
++#define HAVE_CLOCK_GETTIME 0
+ 
+ /* Define to 1 if you have the declaration of `O_SYNC', and to 0 if you don't.
+    */
