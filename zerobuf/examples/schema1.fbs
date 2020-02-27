@@ -1,5 +1,0 @@
-
-table KeyValue {
-  intvalue:    int;
-  doublevalue: double;
-}
