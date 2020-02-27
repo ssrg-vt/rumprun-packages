@@ -1,5 +1,5 @@
 include ../Makefile.inc
-UPSTREAM=ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz
+UPSTREAM=https://gcc.gnu.org/pub/libffi/libffi-3.2.1.tar.gz
 TARBALL=$(notdir $(UPSTREAM))
 
 all: build/libffi
@@ -21,7 +21,7 @@ build/Makefile: build/stamp_patch
 build/stamp_patch: build/configure
 	../scripts/apply-patches.sh build/ patches/*
 	touch $@
-	
+
 dl/$(TARBALL):
 	mkdir -p dl
 	../scripts/fetch.sh ${UPSTREAM} dl/$(TARBALL)
